@@ -52,15 +52,15 @@ local function set_keymap(bufnr)
         return
       end
 
-      if ft == "md" then
-        -- Neorg path = ./.resources/
+      if ft == "markdown" then
         local resources = base .. "/.resources"
         make_dir(resources)
+
         local rel_path = "./.resources/" .. name
         local abs_path = resources .. "/" .. name
 
         save_clipboard_png(abs_path)
-        insert_at_cursor("xdg-open \"openimage:" .. rel_path .. "\"")
+        insert_at_cursor("xdg-open \"openimage:" .. rel_path .. "\" &")
         return
       end
 
@@ -83,7 +83,7 @@ function M.setup(opts)
 
   vim.api.nvim_create_autocmd("FileType", {
     group = aug,
-    pattern = { "tex", "norg" },
+    pattern = { "tex", "markdown" },
     callback = function(args)
       set_keymap(args.buf)
     end,
