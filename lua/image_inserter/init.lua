@@ -52,7 +52,7 @@ local function set_keymap(bufnr)
         return
       end
 
-      if ft == "norg" then
+      if ft == "md" then
         -- Neorg path = ./.resources/
         local resources = base .. "/.resources"
         make_dir(resources)
@@ -60,7 +60,7 @@ local function set_keymap(bufnr)
         local abs_path = resources .. "/" .. name
 
         save_clipboard_png(abs_path)
-        insert_at_cursor("{openimage:" .. rel_path .. "}")
+        insert_at_cursor("xdg-open \"openimage:" .. rel_path .. "\"")
         return
       end
 
@@ -71,7 +71,7 @@ local function set_keymap(bufnr)
       local abs_path = figures .. "/" .. name
 
       save_clipboard_png(abs_path)
-      insert_at_cursor([[\\includegraphics[width=\\linewidth]{]] .. rel_path .. "}")
+      insert_at_cursor([[\includegraphics[width=\linewidth]{]] .. rel_path .. "}")
     end)
   end, { remap = false, buffer = bufnr, silent = true, desc = "Insert clipboard image" })
 end
@@ -79,7 +79,7 @@ end
 function M.setup(opts)
   state.opts = vim.tbl_deep_extend("keep", opts or {}, configs)
 
-  local aug = vim.api.nvim_create_augroup("LatexImageInserterMaps", { clear = true })
+  local aug = vim.api.nvim_create_augroup("ImageInserterMaps", { clear = true })
 
   vim.api.nvim_create_autocmd("FileType", {
     group = aug,
